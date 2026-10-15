@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Classes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 12px 20px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #006633;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .separator {
+            margin: 0 8px;
+            color: #999;
+        }
+
+        .breadcrumb .current {
+            color: #666;
+        }
+
+        /* Page Title */
+        .page-header {
+            background: linear-gradient(135deg, #006633 0%, #004d26 100%);
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .term-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 20px;
+        }
+
+        .tab {
+            padding: 14px 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #006633;
+            background: #f0f8f4;
+        }
+
+        .tab.active {
+            color: #006633;
+            font-weight: 600;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #006633;
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            max-width: 100%;
+        }
+
+        /* Search Results Panel */
+        .search-panel {
+            background: #fff;
+            margin: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .search-info h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .search-meta {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .search-meta span {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: #006633;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #005528;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,102,51,0.3);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn-add {
+            background: #006633;
+            color: white;
+            padding: 6px 16px;
+            font-size: 12px;
+            border-radius: 5px;
+        }
+
+        .btn-add:hover {
+            background: #005528;
+        }
+
+        .btn-add.added {
+            background: #28a745;
+            cursor: default;
+        }
+
+        /* Sort & Filter Bar */
+        .sort-filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #fafbfc;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .sort-btn {
+            padding: 4px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .sort-btn:hover, .sort-btn.active {
+            background: #006633;
+            color: white;
+            border-color: #006633;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+        }
+
+        .view-btn {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .view-btn:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+
+        .view-btn:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .view-btn.active {
+            background: #006633;
+            color: white;
+            border-color: #006633;
+        }
+
+        /* Results Table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table thead th {
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+            background: #fafbfc;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .results-table thead th:hover {
+            color: #006633;
+            background: #f0f8f4;
+        }
+
+        .results-table thead th .sort-icon {
+            font-size: 10px;
+            margin-left: 4px;
+            opacity: 0.4;
+        }
+
+        .results-table tbody tr {
+            transition: all 0.15s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .results-table tbody tr:hover {
+            background: #f0f8f4;
+        }
+
+        .results-table tbody tr.highlighted {
+            background: #e8f5e9;
+            border-left: 4px solid #006633;
+        }
+
+        .results-table tbody td {
+            padding: 14px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .course-title {
+            color: #006633;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .course-title:hover {
+            text-decoration: underline;
+        }
+
+        .subject-badge {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Meeting Days */
+        .meeting-days {
+            display: flex;
+            gap: 2px;
+        }
+
+        .day {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 3px;
+            background: #e9ecef;
+            color: #999;
+        }
+
+        .day.active {
+            background: #006633;
+            color: white;
+        }
+
+        /* Status Badges */
+        .status-open {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .status-limited {
+            color: #fd7e14;
+            font-weight: 600;
+        }
+
+        .status-full {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .seats-info {
+            font-size: 12px;
+        }
+
+        .seats-bar {
+            width: 60px;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .seats-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .seats-fill.green { background: #28a745; }
+        .seats-fill.yellow { background: #ffc107; }
+        .seats-fill.orange { background: #fd7e14; }
+        .seats-fill.red { background: #dc3545; }
+
+        /* ===== PROFESSOR RATING SYSTEM ===== */
+        .instructor-cell {
+            position: relative;
+        }
+
+        .instructor-link {
+            color: #006633;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instructor-link:hover {
+            text-decoration: underline;
+        }
+
+        .rating-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 24px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rating-badge.excellent { background: #2ecc40; }
+        .rating-badge.good { background: #8bc34a; }
+        .rating-badge.average { background: #ffc107; color: #333; }
+        .rating-badge.below-average { background: #ff9800; }
+        .rating-badge.poor { background: #e74c3c; }
+        .rating-badge.na { background: #ccc; color: #666; font-size: 10px; }
+
+        .rating-stars-mini {
+            display: flex;
+            gap: 1px;
+        }
+
+        .rating-stars-mini .star {
+            font-size: 11px;
+            color: #ddd;
+        }
+
+        .rating-stars-mini .star.filled { color: #ffc107; }
+        .rating-stars-mini .star.half { color: #ffc107; }
+
+        .rating-count {
+            font-size: 10px;
+            color: #999;
+        }
+
+        .difficulty-indicator {
+            display: inline-block;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 4px;
+        }
+
+        .difficulty-easy { background: #e8f5e9; color: #2e7d32; }
+        .difficulty-medium { background: #fff8e1; color: #f57f17; }
+        .difficulty-hard { background: #fce4ec; color: #c62828; }
+
+        /* Professor Rating Popup/Tooltip */
+        .prof-rating-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            width: 360px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            overflow: hidden;
+            animation: popupIn 0.2s ease-out;
+        }
+
+        @keyframes popupIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .instructor-cell:hover .prof-rating-popup,
+        .prof-rating-popup.pinned {
+            display: block;
+        }
+
+        .popup-header {
+            padding: 16px 18px;
+            background: linear-gradient(135deg, #006633 0%, #004d26 100%);
+            color: white;
+        }
+
+        .popup-prof-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .popup-dept {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .popup-body {
+            padding: 16px 18px;
+        }
+
+        .popup-rating-overview {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popup-big-rating {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .popup-big-rating .number {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .popup-big-rating .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .popup-rating-details {
+            flex: 1;
+        }
+
+        .popup-rating-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .popup-rating-row .label {
+            color: #666;
+        }
+
+        .popup-rating-bar {
+            width: 80px;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 8px;
+            flex: 1;
+        }
+
+        .popup-rating-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .popup-rating-row .value {
+            font-weight: 700;
+            width: 30px;
+            text-align: right;
+        }
+
+        .popup-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .popup-tag {
+            padding: 3px 10px;
+            background: #f0f8f4;
+            color: #006633;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .popup-tag.negative {
+            background: #fff3f3;
+            color: #c62828;
+        }
+
+        .popup-recent-reviews {
+            margin-top: 12px;
+        }
+
+        .popup-recent-reviews h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .mini-review {
+            padding: 8px 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #555;
+            border-left: 3px solid;
+        }
+
+        .mini-review.positive { border-color: #28a745; }
+        .mini-review.neutral { border-color: #ffc107; }
+        .mini-review.negative { border-color: #dc3545; }
+
+        .popup-footer {
+            padding: 10px 18px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-footer a {
+            color: #006633;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .popup-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .popup-footer .total-reviews {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* Rating Column Header */
+        .rating-header {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rating-info-icon {
+            width: 14px;
+            height: 14px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #666;
+            cursor: help;
+        }
+
+        /* Bottom Panels */
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 0 20px 20px;
+        }
+
+        /* Schedule Panel */
+        .schedule-panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .panel-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .panel-tab {
+            padding: 10px 20px;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #666;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .panel-tab.active {
+            color: #006633;
+            background: #fff;
+        }
+
+        .panel-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #006633;
+        }
+
+        /* Calendar Grid */
+        .calendar-container {
+            padding: 12px;
+        }
+
+        .calendar-header-row {
+            display: grid;
+            grid-template-columns: 50px repeat(5, 1fr);
+            gap: 1px;
+            margin-bottom: 1px;
+        }
+
+        .calendar-header-row .cal-head {
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .calendar-body {
+            position: relative;
+            display: grid;
+            grid-template-columns: 50px repeat(5, 1fr);
+            gap: 0;
+        }
+
+        .time-slot {
+            padding: 4px;
+            font-size: 10px;
+            color: #999;
+            text-align: right;
+            height: 40px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .calendar-cell {
+            height: 40px;
+            border-top: 1px solid #f0f0f0;
+            border-left: 1px solid #f8f8f8;
+            position: relative;
+        }
+
+        .cal-event {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            border-radius: 4px;
+            padding: 3px 5px;
+            font-size: 9px;
+            font-weight: 600;
+            color: white;
+            z-index: 2;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.1s;
+        }
+
+        .cal-event:hover {
+            transform: scale(1.02);
+            z-index: 3;
+        }
+
+        .cal-event.cs483 { background: #1565c0; }
+        .cal-event.cs480 { background: #6a1b9a; }
+        .cal-event.cs101 { background: #2e7d32; }
+
+        .cal-event .event-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cal-event .event-time {
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* Summary Panel */
+        .summary-panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-header h3 {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .tuition-link {
+            color: #006633;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .summary-table td {
+            padding: 10px 14px;
+            font-size: 12px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .summary-table tr:hover {
+            background: #fafafa;
+        }
+
+        .registered-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .waitlisted-badge {
+            background: #fff3e0;
+            color: #e65100;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .summary-footer {
+            padding: 12px 18px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .credits-info span {
+            margin-right: 12px;
+        }
+
+        .credits-info strong {
+            color: #333;
+        }
+
+        .submit-btn {
+            padding: 10px 32px;
+            background: #006633;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #005528;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,102,51,0.3);
+        }
+
+        /* Rating Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            width: 560px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .modal-header p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-body {
+            padding: 24px 28px;
+        }
+
+        .modal-body .prof-detail-header {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .prof-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #006633, #00994d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .prof-detail-info h3 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .prof-detail-info .dept {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .prof-detail-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .prof-stat {
+            text-align: center;
+        }
+
+        .prof-stat .stat-value {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .prof-stat .stat-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* Rating Breakdown */
+        .rating-breakdown {
+            margin-bottom: 24px;
+        }
+
+        .rating-breakdown h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .breakdown-row .star-label {
+            width: 14px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .breakdown-bar {
+            flex: 1;
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .breakdown-bar-fill {
+            height: 100%;
+            background: #ffc107;
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+
+        .breakdown-count {
+            width: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Tags in modal */
+        .all-tags {
+            margin-bottom: 24px;
+        }
+
+        .all-tags h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag-item {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #f0f8f4;
+            color: #006633;
+        }
+
+        .tag-item.neg {
+            background: #fef0f0;
+            color: #c62828;
+        }
+
+        .tag-item .tag-count {
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        /* Reviews in modal */
+        .reviews-section h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .review-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            transition: box-shadow 0.2s;
+        }
+
+        .review-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .review-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .review-course {
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .review-date {
+            font-size: 11px;
+            color: #bbb;
+        }
+
+        .review-ratings {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .review-rating-item {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .review-rating-item strong {
+            color: #333;
+        }
+
+        .review-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .review-helpful {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #bbb;
+        }
+
+        .helpful-btn {
+            border: 1px solid #ddd;
+            background: #fff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .helpful-btn:hover {
+            background: #f0f8f4;
+            border-color: #006633;
+            color: #006633;
+        }
+
+        /* Write Review Form */
+        .write-review-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .write-review-section h4 {
+            font-size: 15px;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .star-rating-input {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star-rating-input .star-input {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.1s;
+        }
+
+        .star-rating-input .star-input:hover,
+        .star-rating-input .star-input.active {
+            color: #ffc107;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #006633;
+            box-shadow: 0 0 0 3px rgba(0,102,51,0.1);
+        }
+
+        .form-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #fff;
+        }
+
+        .submit-review-btn {
+            padding: 10px 24px;
+            background: #006633;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .submit-review-btn:hover {
+            background: #005528;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .results-table {
+                font-size: 11px;
+            }
+
+            .prof-rating-popup {
+                width: 300px;
+            }
+        }
+
+        /* Would Take Again percentage */
+        .take-again {
+            font-size: 11px;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        /* Grade chip */
+        .grade-chip {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .grade-a { background: #e8f5e9; color: #2e7d32; }
+        .grade-b { background: #fff8e1; color: #f57f17; }
+        .grade-c { background: #fce4ec; color: #c62828; }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltip-text {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        .tooltip:hover .tooltip-text {
+            display: block;
+        }
+
+        /* Skeleton loader for rating */
+        .rating-loading {
+            width: 36px;
+            height: 24px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 5px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Search bar enhancement */
+        .quick-search {
+            padding: 12px 20px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .quick-search input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .quick-search input:focus {
+            outline: none;
+            border-color: #006633;
+        }
+
+        .quick-search select {
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #fff;
+        }
+
+        .action-dropdown {
+            position: relative;
+        }
+
+        .action-dropdown select {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 11px;
+            background: #fff;
+        }
+
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            z-index: 3000;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            animation: toastIn 0.3s ease-out;
+        }
+
+        @keyframes toastIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .notification-toast.success {
+            background: #28a745;
+        }
+
+        .notification-toast.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="#">Student</a>
+        <span class="separator">›</span>
+        <a href="#">Registration</a>
+        <span class="separator">›</span>
+        <a href="#">Select a Term</a>
+        <span class="separator">›</span>
+        <span class="current">Register for Classes</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>📚 Register for Classes</h1>
+        <span class="term-badge">📅 Fall 2026</span>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">🔍 Find Classes</button>
+        <button class="tab" onclick="switchTab(this)">⌨️ Enter CRNs</button>
+        <button class="tab" onclick="switchTab(this)">📋 Plans</button>
+        <button class="tab" onclick="switchTab(this)">⚙️ Schedule and Options</button>
+    </div>
+
+    <!-- Quick Search -->
+    <div class="quick-search">
+        <select>
+            <option>Computer Science</option>
+            <option>Mathematics</option>
+            <option>Engineering</option>
+            <option>Biology</option>
+        </select>
+        <input type="text" placeholder="Search by course number, title, or professor name..." id="searchInput" oninput="filterResults()">
+        <button class="btn btn-primary" onclick="performSearch()">🔍 Search</button>
+        <button class="btn btn-secondary" onclick="resetSearch()">Reset</button>
+    </div>
+
+    <!-- Search Results -->
+    <div class="search-panel">
+        <div class="search-header">
+            <div class="search-info">
+                <h3>Search Results — <span id="resultCount">6</span> Classes</h3>
+                <div class="search-meta">
+                    <span>Term: Fall 2026</span>
+                    <span>Subject: Computer Science</span>
+                    <span>Course: 483</span>
+                    <span>Keyword: data structure</span>
+                </div>
+            </div>
+            <div class="search-actions">
+                <button class="btn btn-primary" onclick="performSearch()">🔍 Search Again</button>
+            </div>
+        </div>
+
+        <!-- Sort & Filter Bar -->
+        <div class="sort-filter-bar">
+            <div class="sort-options">
+                <span>Sort by:</span>
+                <button class="sort-btn active" onclick="sortResults('section', this)">Section</button>
+                <button class="sort-btn" onclick="sortResults('rating', this)">⭐ Rating</button>
+                <button class="sort-btn" onclick="sortResults('seats', this)">Seats Available</button>
+                <button class="sort-btn" onclick="sortResults('time', this)">Time</button>
+                <button class="sort-btn" onclick="sortResults('difficulty', this)">Difficulty</button>
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" title="Table View">☰</button>
+                <button class="view-btn" title="Card View">⊞</button>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="results-table" id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Title <span class="sort-icon">↕</span></th>
+                    <th>Subject</th>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Hours</th>
+                    <th>CRN</th>
+                    <th>Instructor</th>
+                    <th>
+                        <div class="rating-header">
+                            Rating
+                            <span class="rating-info-icon tooltip">?
+                                <span class="tooltip-text">Ratings from student reviews (1-5 scale)</span>
+                            </span>
+                        </div>
+                    </th>
+                    <th>Difficulty</th>
+                    <th>Meeting Times</th>
+                    <th>Status</th>
+                    <th>Schedule Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+        <!-- Schedule Panel -->
+        <div class="schedule-panel">
+            <div class="panel-tabs">
+                <button class="panel-tab active">📅 Schedule</button>
+                <button class="panel-tab">📝 Schedule Details</button>
+            </div>
+            <div class="calendar-container">
+                <h4 style="font-size: 13px; color: #666; margin-bottom: 10px;">Class Schedule for Fall 2026</h4>
+                <div class="calendar-header-row">
+                    <div class="cal-head"></div>
+                    <div class="cal-head">Mon</div>
+                    <div class="cal-head">Tue</div>
+                    <div class="cal-head">Wed</div>
+                    <div class="cal-head">Thu</div>
+                    <div class="cal-head">Fri</div>
+                </div>
+                <div class="calendar-body" id="calendarBody">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Panel -->
+        <div class="summary-panel">
+            <div class="summary-header">
+                <h3>📋 Summary</h3>
+                <a href="#" class="tuition-link">💰 Tuition and Fees</a>
+            </div>
+            <table class="summary-table" id="summaryTable">
+                <tbody>
+                    <tr>
+                        <td><a href="#" class="course-title">Analysis of Algorithms</a></td>
+                        <td>CS 483, 006</td>
+                        <td>3</td>
+                        <td>79433</td>
+                        <td>Lecture</td>
+                        <td><span class="registered-badge">Registered</span></td>
+                        <td>
+                            <div class="action-dropdown">
+                                <select><option>None</option><option>Drop</option></select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="course-title">Intro Artificial Intelligence</a></td>
+                        <td>CS 480, 001</td>
+                        <td>3</td>
+                        <td>77954</td>
+                        <td>Lecture</td>
+                        <td><span class="registered-badge">Registered</span></td>
+                        <td>
+                            <div class="action-dropdown">
+                                <select><option>None</option><option>Drop</option></select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="summary-footer">
+                <div class="credits-info">
+                    <span>Total Hours: <strong>6</strong></span>
+                    <span>Registered: <strong>6</strong></span>
+                    <span>Billing: <strong>6</strong></span>
+                </div>
+                <button class="submit-btn" onclick="submitRegistration()">Submit Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professor Rating Modal -->
+    <div class="modal-overlay" id="profModal">
+        <div class="modal" style="position:relative;">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-header">
+                <h2 id="modalProfName">Professor Name</h2>
+                <p id="modalProfDept">Department of Computer Science</p>
+            </div>
+            <div class="modal-body">
+                <div class="prof-detail-header">
+                    <div class="prof-avatar" id="modalAvatar">JD</div>
+                    <div class="prof-detail-info">
+                        <h3 id="modalProfNameLarge">Professor Name</h3>
+                        <p class="dept" id="modalDeptDetail">Computer Science • George Mason University</p>
+                        <div class="prof-detail-stats" id="modalStats">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rating Breakdown -->
+                <div class="rating-breakdown" id="ratingBreakdown">
+                    <h4>Rating Breakdown</h4>
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Tags -->
+                <div class="all-tags" id="modalTags">
+                    <h4>Common Tags</h4>
+                    <div class="tag-list" id="tagList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Reviews -->
+                <div class="reviews-section" id="reviewsSection">
+                    <h4>Recent Reviews</h4>
+                    <div id="reviewsList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Write Review -->
+                <div class="write-review-section">
+                    <h4>✍️ Write a Review</h4>
+                    <div class="form-group">
+                        <label>Overall Rating</label>
+                        <div class="star-rating-input" id="overallStars">
+                            <span class="star-input" data-value="1" onclick="setRating('overall', 1)">★</span>
+                            <span class="star-input" data-value="2" onclick="setRating('overall', 2)">★</span>
+                            <span class="star-input" data-value="3" onclick="setRating('overall', 3)">★</span>
+                            <span class="star-input" data-value="4" onclick="setRating('overall', 4)">★</span>
+                            <span class="star-input" data-value="5" onclick="setRating('overall', 5)">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <div class="star-rating-input" id="difficultyStars">
+                            <span class="star-input" data-value="1" onclick="setRating('difficulty', 1)">★</span>
+                            <span class="star-input" data-value="2" onclick="setRating('difficulty', 2)">★</span>
+                            <span class="star-input" data-value="3" onclick="setRating('difficulty', 3)">★</span>
+                            <span class="star-input" data-value="4" onclick="setRating('difficulty', 4)">★</span>
+                            <span class="star-input" data-value="5" onclick="setRating('difficulty', 5)">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Would you take this professor again?</label>
+                        <select id="takeAgainSelect">
+                            <option value="">Select...</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Course</label>
+                        <select id="courseSelect">
+                            <option value="">Select course...</option>
+                            <option>CS 483 - Analysis of Algorithms</option>
+                            <option>CS 480 - Intro to Artificial Intelligence</option>
+                            <option>CS 310 - Data Structures</option>
+                            <option>CS 330 - Formal Methods</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Review</label>
+                        <textarea placeholder="Share your experience with this professor..." id="reviewText"></textarea>
+                    </div>
+                    <button class="submit-review-btn" onclick="submitReview()">Submit Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="notification-toast" id="toast"></div>
+
+    <script>
+        // ===== PROFESSOR DATA (Placeholder - Replace with real data) =====
+        const professorData = {
+            'prof_001': {
+                id: 'prof_001',
+                name: 'Professor A. Smith',
+                initials: 'AS',
+                department: 'Computer Science',
+                overallRating: 4.2,
+                difficulty: 3.8,
+                wouldTakeAgain: 78,
+                totalRatings: 47,
+                avgGrade: 'B+',
+                breakdown: { 5: 18, 4: 15, 3: 8, 2: 4, 1: 2 },
+                tags: [
+                    { text: 'Clear lectures', count: 32, positive: true },
+                    { text: 'Helpful office hours', count: 24, positive: true },
+                    { text: 'Tough grader', count: 19, positive: false },
+                    { text: 'Lots of homework', count: 15, positive: false },
+                    { text: 'Engaging', count: 21, positive: true },
+                    { text: 'Test heavy', count: 12, positive: false },
+                ],
+                reviews: [
+                    {
+                        course: 'CS 483',
+                        date: 'Mar 2026',
+                        quality: 4,
+                        difficulty: 4,
+                        text: 'Very knowledgeable professor. Lectures can be dense but office hours are super helpful. Make sure you start homeworks early.',
+                        helpful: 12,
+                        sentiment: 'positive'
+                    },
+                    {
+                        course: 'CS 483',
+                        date: 'Dec 2025',
+                        quality: 5,
+                        difficulty: 3,
+                        text: 'One of the best CS professors. Makes algorithms actually interesting. Fair exams if you study the material.',
+                        helpful: 28,
+                        sentiment: 'positive'
+                    },
+                    {
+                        course: 'CS 310',
+                        date: 'May 2025',
+                        quality: 3,
+                        difficulty: 4,
+                        text: 'Material is hard and the pace is fast. Need to dedicate a lot of time outside of class to do well.',
+                        helpful: 8,
+                        sentiment: 'neutral'
+                    }
+                ]
+            },
+            'prof_002': {
+                id: 'prof_002',
+                name: 'Professor B. Johnson',
+                initials: 'BJ',
+                department: 'Computer Science',
+                overallRating: 3.5,
+                difficulty: 4.2,
+                wouldTakeAgain: 55,
+                totalRatings: 33,
+                avgGrade: 'B',
+                breakdown: { 5: 8, 4: 10, 3: 7, 2: 5, 1: 3 },
+                tags: [
+                    { text: 'Knowledgeable', count: 20, positive: true },
+                    { text: 'Heavy workload', count: 25, positive: false },
+                    { text: 'Tough exams', count: 18, positive: false },
+                    { text: 'Accessible', count: 14, positive: true },
+                    { text: 'Fast paced', count: 16, positive: false },
+                ],
+                reviews: [
+                    {
+                        course: 'CS 483',
+                        date: 'Mar 2026',
+                        quality: 3,
+                        difficulty: 5,
+                        text: 'Very challenging class. The professor knows the material well but moves too fast for most students.',
+                        helpful: 15,
+                        sentiment: 'neutral'
+                    },
+                    {
+                        course: 'CS 483',
+                        date: 'Dec 2025',
+                        quality: 4,
+                        difficulty: 4,
+                        text: 'Tough but fair. If you put in the work you will learn a lot. Office hours are a must.',
+                        helpful: 11,
+                        sentiment: 'positive'
+                    }
+                ]
+            },
+            'prof_003': {
+                id: 'prof_003',
+                name: 'Professor C. Williams',
+                initials: 'CW',
+                department: 'Computer Science',
+                overallRating: 4.7,
+                difficulty: 2.5,
+                wouldTakeAgain: 92,
+                totalRatings: 89,
+                avgGrade: 'A-',
+                breakdown: { 5: 52, 4: 25, 3: 8, 2: 3, 1: 1 },
+                tags: [
+                    { text: 'Amazing lecturer', count: 65, positive: true },
+                    { text: 'Caring', count: 48, positive: true },
+                    { text: 'Fair grading', count: 42, positive: true },
+                    { text: 'Inspirational', count: 35, positive: true },
+                    { text: 'Easy A', count: 20, positive: true },
+                    { text: 'Group projects', count: 15, positive: false },
+                ],
+                reviews: [
+                    {
+                        course: 'CS 483',
+                        date: 'Apr 2026',
+                        quality: 5,
+                        difficulty: 2,
+                        text: 'Best professor I have had at the university! Makes everything so clear and is incredibly approachable. Highly recommend!',
+                        helpful: 45,
+                        sentiment: 'positive'
+                    },
+                    {
+                        course: 'CS 330',
+                        date: 'Dec 2025',
+                        quality: 5,
+                        difficulty: 3,
+                        text: 'Absolutely wonderful. You can tell this professor genuinely cares about students learning. Tests are fair.',
+                        helpful: 38,
+                        sentiment: 'positive'
+                    }
+                ]
+            },
+            'prof_004': {
+                id: 'prof_004',
+                name: 'Professor D. Brown',
+                initials: 'DB',
+                department: 'Computer Science',
+                overallRating: 2.8,
+                difficulty: 4.5,
+                wouldTakeAgain: 30,
+                totalRatings: 22,
+                avgGrade: 'C+',
+                breakdown: { 5: 2, 4: 4, 3: 6, 2: 5, 1: 5 },
+                tags: [
+                    { text: 'Unclear lectures', count: 15, positive: false },
+                    { text: 'Harsh grading', count: 18, positive: false },
+                    { text: 'Research focused', count: 10, positive: true },
+                    { text: 'Disorganized', count: 12, positive: false },
+                    { text: 'Helpful TA', count: 8, positive: true },
+                ],
+                reviews: [
+                    {
+                        course: 'CS 483',
+                        date: 'Mar 2026',
+                        quality: 2,
+                        difficulty: 5,
+                        text: 'Very hard to follow in lecture. The homeworks are extremely time consuming and grading is harsh.',
+                        helpful: 20,
+                        sentiment: 'negative'
+                    },
+                    {
+                        course: 'CS 483',
+                        date: 'May 2025',
+                        quality: 3,
+                        difficulty: 4,
+                        text: 'Not the worst but definitely challenging. Rely heavily on the TA and textbook. Curve at end helps.',
+                        helpful: 14,
+                        sentiment: 'neutral'
+                    }
+                ]
+            },
+            'prof_005': {
+                id: 'prof_005',
+                name: 'Professor E. Davis',
+                initials: 'ED',
+                department: 'Computer Science',
+                overallRating: 3.9,
+                difficulty: 3.2,
+                wouldTakeAgain: 71,
+                totalRatings: 56,
+                avgGrade: 'B+',
+                breakdown: { 5: 15, 4: 20, 3: 12, 2: 6, 1: 3 },
+                tags: [
+                    { text: 'Good examples', count: 30, positive: true },
+                    { text: 'Responsive on email', count: 22, positive: true },
+                    { text: 'Some boring lectures', count: 14, positive: false },
+                    { text: 'Fair exams', count: 25, positive: true },
+                    { text: 'Useful slides', count: 18, positive: true },
+                ],
+                reviews: [
+                    {
+                        course: 'CS 483',
+                        date: 'Apr 2026',
+                        quality: 4,
+                        difficulty: 3,
+                        text: 'Solid professor. Lectures could be more engaging but the material coverage is thorough. Good slides.',
+                        helpful: 10,
+                        sentiment: 'positive'
+                    }
+                ]
+            },
+            'prof_006': {
+                id: 'prof_006',
+                name: 'Professor F. Martinez',
+                initials: 'FM',
+                department: 'Computer Science',
+                overallRating: 0,
+                difficulty: 0,
+                wouldTakeAgain: 0,
+                totalRatings: 0,
+                avgGrade: 'N/A',
+                breakdown: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
+                tags: [],
+                reviews: []
+            }
+        };
+
+        // ===== COURSE DATA (Placeholder) =====
+        const courseData = [
+            {
+                id: 1,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '001',
+                hours: 3,
+                crn: '73245',
+                term: 'Fall',
+                profId: 'prof_001',
+                days: ['M', 'W'],
+                startTime: '09:00 AM',
+                endTime: '10:15 AM',
+                campus: 'Fairfax',
+                seatsTotal: 72,
+                seatsTaken: 22,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            },
+            {
+                id: 2,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '002',
+                hours: 3,
+                crn: '73246',
+                term: 'Fall',
+                profId: 'prof_001',
+                days: ['M', 'W'],
+                startTime: '12:00 PM',
+                endTime: '01:15 PM',
+                campus: 'Fairfax',
+                seatsTotal: 72,
+                seatsTaken: 1,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            },
+            {
+                id: 3,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '003',
+                hours: 3,
+                crn: '73247',
+                term: 'Fall',
+                profId: 'prof_002',
+                days: ['T', 'R'],
+                startTime: '10:30 AM',
+                endTime: '11:45 AM',
+                campus: 'Fairfax',
+                seatsTotal: 72,
+                seatsTaken: 68,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            },
+            {
+                id: 4,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '006',
+                hours: 3,
+                crn: '79433',
+                term: 'Fall',
+                profId: 'prof_003',
+                days: ['F'],
+                startTime: '10:30 AM',
+                endTime: '01:10 PM',
+                campus: 'Fairfax',
+                seatsTotal: 144,
+                seatsTaken: 4,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            },
+            {
+                id: 5,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '007',
+                hours: 3,
+                crn: '82019',
+                term: 'Fall',
+                profId: 'prof_004',
+                days: ['T', 'R'],
+                startTime: '03:00 PM',
+                endTime: '04:15 PM',
+                campus: 'Fairfax',
+                seatsTotal: 72,
+                seatsTaken: 30,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            },
+            {
+                id: 6,
+                title: 'Analysis of Algorithms',
+                subject: 'Comp Sci',
+                subjectCode: 'CS',
+                course: 483,
+                section: '008',
+                hours: 3,
+                crn: '84501',
+                term: 'Fall',
+                profId: 'prof_006',
+                days: ['M', 'W', 'F'],
+                startTime: '01:30 PM',
+                endTime: '02:20 PM',
+                campus: 'Fairfax',
+                seatsTotal: 50,
+                seatsTaken: 50,
+                scheduleType: 'Lecture',
+                attributes: 'Undergraduate - Upper Division'
+            }
+        ];
+
+        // ===== HELPER FUNCTIONS =====
+        function getRatingClass(rating) {
+            if (rating >= 4.5) return 'excellent';
+            if (rating >= 3.5) return 'good';
+            if (rating >= 2.5) return 'average';
+            if (rating >= 1.5) return 'below-average';
+            if (rating > 0) return 'poor';
+            return 'na';
+        }
+
+        function getRatingColor(rating) {
+            if (rating >= 4.5) return '#2ecc40';
+            if (rating >= 3.5) return '#8bc34a';
+            if (rating >= 2.5) return '#ffc107';
+            if (rating >= 1.5) return '#ff9800';
+            if (rating > 0) return '#e74c3c';
+            return '#ccc';
+        }
+
+        function getDifficultyClass(diff) {
+            if (diff <= 2.5) return 'difficulty-easy';
+            if (diff <= 3.5) return 'difficulty-medium';
+            return 'difficulty-hard';
+        }
+
+        function getDifficultyLabel(diff) {
+            if (diff === 0) return 'N/A';
+            if (diff <= 2.0) return 'Easy';
+            if (diff <= 3.0) return 'Moderate';
+            if (diff <= 4.0) return 'Hard';
+            return 'Very Hard';
+        }
+
+        function getStarsHTML(rating, size) {
+            let html = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.3;
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    html += `<span class="star filled" style="font-size:${size}px">★</span>`;
+                } else if (i === fullStars + 1 && halfStar) {
+                    html += `<span class="star half" style="font-size:${size}px">★</span>`;
+                } else {
+                    html += `<span class="star" style="font-size:${size}px">★</span>`;
+                }
+            }
+            return html;
+        }
+
+        function getSeatsStatus(taken, total) {
+            const remaining = total - taken;
+            const pct = (taken / total) * 100;
+            if (remaining <= 0) return { text: 'Full', class: 'status-full', fillClass: 'red' };
+            if (pct >= 90) return { text: `${remaining} left`, class: 'status-limited', fillClass: 'orange' };
+            if (pct >= 70) return { text: `${remaining} left`, class: 'status-limited', fillClass: 'yellow' };
+            return { text: `${taken} of ${total}`, class: 'status-open', fillClass: 'green' };
+        }
+
+        function getDaysHTML(days) {
+            const allDays = ['S', 'M', 'T', 'W', 'R', 'F', 'S'];
+            const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            // Map: S=Sun, M=Mon, T=Tue, W=Wed, R=Thu, F=Fri
+            const dayMap = { 'S': [0], 'M': [1], 'T': [2], 'W': [3], 'R': [4], 'F': [5] };
+            let activeIndices = new Set();
+            days.forEach(d => {
+                if (dayMap[d]) dayMap[d].forEach(i => activeIndices.add(i));
+            });
+
+            let html = '<div class="meeting-days">';
+            dayLabels.forEach((label, i) => {
+                if (i === 0 || i === 6) return; // skip Sunday/Saturday for most courses
+                html += `<span class="day ${activeIndices.has(i) ? 'active' : ''}">${label}</span>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // ===== RENDER RESULTS =====
+        function renderResults(data) {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = '';
+            document.getElementById('resultCount', data.length);
+
+            data.forEach(course => {
+                const prof = professorData[course.profId];
+                const status = getSeatsStatus(course.seatsTaken, course.seatsTotal);
+                const fillPct = (course.seatsTaken / course.seatsTotal) * 100;
+                const isFull = course.seatsTaken >= course.seatsTotal;
+
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-course-id', course.id);
+                tr.innerHTML = `
+                    <td><a href="#" class="course-title" onclick="event.preventDefault()">${course.title}</a></td>
+                    <td><span class="subject-badge">${course.subject}</span></td>
+                    <td>${course.course}</td>
+                    <td>${course.section}</td>
+                    <td>${course.hours}</td>
+                    <td>${course.crn}</td>
+                    <td class="instructor-cell">
+                        <a class="instructor-link" onclick="openProfModal('${course.profId}')" title="Click for full profile">
+                            ${prof.name}
+                        </a>
+                        ${prof.totalRatings > 0 ? `
+                        <div class="rating-inline">
+                            <span class="rating-badge ${getRatingClass(prof.overallRating)}">${prof.overallRating.toFixed(1)}</span>
+                            <span class="rating-count">(${prof.totalRatings})</span>
+                        </div>
+                        ` : `
+                        <div class="rating-inline">
+                            <span class="rating-badge na">NEW</span>
+                            <span class="rating-count">No ratings</span>
+                        </div>
+                        `}
+                        ${prof.totalRatings > 0 ? `
+                        <div class="prof-rating-popup" id="popup_${course.profId}_${course.id}">
+                            <div class="popup-header">
+                                <div class="popup-prof-name">${prof.name}</div>
+                                <div class="popup-dept">${prof.department}</div>
+                            </div>
+                            <div class="popup-body">
+                                <div class="popup-rating-overview">
+                                    <div class="popup-big-rating" style="background:${getRatingColor(prof.overallRating)}">
+                                        <span class="number">${prof.overallRating.toFixed(1)}</span>
+                                        <span class="label">Overall</span>
+                                    </div>
+                                    <div class="popup-rating-details">
+                                        <div class="popup-rating-row">
+                                            <span class="label">Quality</span>
+                                            <div class="popup-rating-bar">
+                                                <div class="popup-rating-bar-fill" style="width:${(prof.overallRating/5)*100}%;background:${getRatingColor(prof.overallRating)}"></div>
+                                            </div>
+                                            <span class="value">${prof.overallRating.toFixed(1)}</span>
+                                        </div>
+                                        <div class="popup-rating-row">
+                                            <span class="label">Difficulty</span>
+                                            <div class="popup-rating-bar">
+                                                <div class="popup-rating-bar-fill" style="width:${(prof.difficulty/5)*100}%;background:${getRatingColor(5-prof.difficulty)}"></div>
+                                            </div>
+                                            <span class="value">${prof.difficulty.toFixed(1)}</span>
+                                        </div>
+                                        <div class="popup-rating-row">
+                                            <span class="label">Take Again</span>
+                                            <div class="popup-rating-bar">
+                                                <div class="popup-rating-bar-fill" style="width:${prof.wouldTakeAgain}%;background:${prof.wouldTakeAgain > 60 ? '#28a745' : '#ff9800'}"></div>
+                                            </div>
+                                            <span class="value">${prof.wouldTakeAgain}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="popup-tags">
+                                    ${prof.tags.slice(0, 4).map(tag => `
+                                        <span class="popup-tag ${tag.positive ? '' : 'negative'}">${tag.text}</span>
+                                    `).join('')}
+                                </div>
+                                ${prof.reviews.length > 0 ? `
+                                <div class="popup-recent-reviews">
+                                    <h4>Latest Review</h4>
+                                    <div class="mini-review ${prof.reviews[0].sentiment}">
+                                        "${prof.reviews[0].text.substring(0, 100)}${prof.reviews[0].text.length > 100 ? '...' : ''}"
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                            <div class="popup-footer">
+                                <a href="#" onclick="event.preventDefault(); openProfModal('${course.profId}')">View Full Profile & All Reviews →</a>
+                                <span class="total-reviews">${prof.totalRatings} reviews</span>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </td>
+                    <td>
+                        ${prof.totalRatings > 0 ? `
+                        <div style="display:flex;align-items:center;gap:4px">
+                            <span class="rating-badge ${getRatingClass(prof.overallRating)}" style="width:28px;height:20px;font-size:11px">${prof.overallRating.toFixed(1)}</span>
+                            <div class="rating-stars-mini">${getStarsHTML(prof.overallRating, 11)}</div>
+                        </div>
+                        <div class="take-again" style="margin-top:2px">${prof.wouldTakeAgain}% would take again</div>
+                        ` : '<span style="color:#bbb;font-size:12px">No ratings</span>'}
+                    </td>
+                    <td>
+                        ${prof.totalRatings > 0 ? `
+                        <span class="difficulty-indicator ${getDifficultyClass(prof.difficulty)}">${getDifficultyLabel(prof.difficulty)} (${prof.difficulty.toFixed(1)})</span>
+                        ` : '<span style="color:#bbb;font-size:12px">N/A</span>'}
+                    </td>
+                    <td>
+                        ${getDaysHTML(course.days)}
+                        <div style="font-size:12px;margin-top:3px;color:#555">${course.startTime} - ${course.endTime}</div>
+                    </td>
+                    <td>
+                        <div class="seats-info">
+                            <span class="${status.class}">${status.text}</span>
+                            <div class="seats-bar">
+                                <div class="seats-fill ${status.fillClass}" style="width:${Math.min(fillPct, 100)}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${course.scheduleType}</td>
+                    <td>
+                        <button class="btn btn-add ${isFull ? '' : ''}" onclick="addClass(${course.id}, this)" ${isFull ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>
+                            ${isFull ? 'Full' : '+ Add'}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('resultCount').textContent = data.length;
+        }
+
+        // ===== SORT RESULTS =====
+        function sortResults(criteria, btn) {
+            document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            let sorted = [...courseData];
+            switch(criteria) {
+                case 'rating':
+                    sorted.sort((a, b) => {
+                        const rA = professorData[a.profId].overallRating;
+                        const rB = professorData[b.profId].overallRating;
+                        return rB - rA;
+                    });
+                    break;
+                case 'seats':
+                    sorted.sort((a, b) => {
+                        const remainA = a.seatsTotal - a.seatsTaken;
+                        const remainB = b.seatsTotal - b.seatsTaken;
+                        return remainB - remainA;
+                    });
+                    break;
+                case 'time':
+                    sorted.sort((a, b) => a.startTime.localeCompare(b.startTime));
+                    break;
+                case 'difficulty':
+                    sorted.sort((a, b) => {
+                        const dA = professorData[a.profId].difficulty;
+                        const dB = professorData[b.profId].difficulty;
+                        return dA - dB;
+                    });
+                    break;
+                default:
+                    sorted.sort((a, b) => a.section.localeCompare(b.section));
+            }
+            renderResults(sorted);
+        }
+
+        // ===== FILTER RESULTS =====
+        function filterResults() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                renderResults(courseData);
+                return;
+            }
+            const filtered = courseData.filter(c => {
+                const prof = professorData[c.profId];
+                return (
+                    c.title.toLowerCase().includes(query) ||
+                    c.course.toString().includes(query) ||
+                    c.crn.includes(query) ||
+                    prof.name.toLowerCase().includes(query) ||
+                    c.section.includes(query)
+                );
+            });
+            renderResults(filtered);
+        }
+
+        // ===== ADD CLASS =====
+        function addClass(courseId, btn) {
+            const course = courseData.find(c => c.id === courseId);
+            if (!course) return;
+
+            btn.textContent = '✓ Added';
+            btn.classList.add('added');
+            btn.disabled = true;
+
+            showToast(`Added ${course.subjectCode} ${course.course}-${course.section} to your schedule`, 'success');
+        }
+
+        // ===== PROFESSOR MODAL =====
+        function openProfModal(profId) {
+            const prof = professorData[profId];
+            if (!prof) return;
+
+            document.getElementById('modalProfName').textContent = prof.name;
+            document.getElementById('modalProfDept').textContent = prof.department;
+            document.getElementById('modalProfNameLarge').textContent = prof.name;
+            document.getElementById('modalDeptDetail').textContent = `${prof.department} • George Mason University`;
+            document.getElementById('modalAvatar').textContent = prof.initials;
+
+            // Stats
+            const statsHTML = `
+                <div class="prof-stat">
+                    <div class="stat-value" style="color:${getRatingColor(prof.overallRating)}">${prof.totalRatings > 0 ? prof.overallRating.toFixed(1) : 'N/A'}</div>
+                    <div class="stat-label">Quality</div>
+                </div>
+                <div class="prof-stat">
+                    <div class="stat-value" style="color:${prof.difficulty > 3.5 ? '#e74c3c' : prof.difficulty > 2.5 ? '#ff9800' : '#28a745'}">${prof.totalRatings > 0 ? prof.difficulty.toFixed(1) : 'N/A'}</div>
+                    <div class="stat-label">Difficulty</div>
+                </div>
+                <div class="prof-stat">
+                    <div class="stat-value" style="color:${prof.wouldTakeAgain > 60 ? '#28a745' : '#ff9800'}">${prof.totalRatings > 0 ? prof.wouldTakeAgain + '%' : 'N/A'}</div>
+                    <div class="stat-label">Take Again</div>
+                </div>
+                <div class="prof-stat">
+                    <div class="stat-value">${prof.totalRatings}</div>
+                    <div class="stat-label">Ratings</div>
+                </div>
+            `;
+            document.getElementById('modalStats').innerHTML = statsHTML;
+
+            // Breakdown
+            const total = prof.totalRatings || 1;
+            let breakdownHTML = '<h4>Rating Breakdown</h4>';
+            for (let i = 5; i >= 1; i--) {
+                const count = prof.breakdown[i] || 0;
+                const pct = (count / total) * 100;
+                breakdownHTML += `
+                    <div class="breakdown-row">
+                        <span class="star-label">${i}★</span>
+                        <div class="breakdown-bar">
+                            <div class="breakdown-bar-fill" style="width:${pct}%"></div>
+                        </div>
+                        <span class="breakdown-count">${count}</span>
+                    </div>
+                `;
+            }
+            document.getElementById('ratingBreakdown').innerHTML = breakdownHTML;
+
+            // Tags
+            let tagsHTML = '<h4>Common Tags</h4><div class="tag-list">';
+            if (prof.tags.length === 0) {
+                tagsHTML += '<span style="color:#999;font-size:13px">No tags yet. Be the first to review!</span>';
+            } else {
+                prof.tags.forEach(tag => {
+                    tagsHTML += `<span class="tag-item ${tag.positive ? '' : 'neg'}">${tag.text} <span class="tag-count">(${tag.count})</span></span>`;
+                });
+            }
+            tagsHTML += '</div>';
+            document.getElementById('modalTags').innerHTML = tagsHTML;
+
+            // Reviews
+            let reviewsHTML = '<h4>Recent Reviews</h4>';
+            if (prof.reviews.length === 0) {
+                reviewsHTML += '<p style="color:#999;font-size:13px">No reviews yet. Share your experience!</p>';
+            } else {
+                prof.reviews.forEach(review => {
+                    reviewsHTML += `
+                        <div class="review-card">
+                            <div class="review-card-header">
+                                <span class="review-course">${review.course}</span>
+                                <span class="review-date">${review.date}</span>
+                            </div>
+                            <div class="review-ratings">
+                                <span class="review-rating-item">Quality: <strong>${review.quality}/5</strong></span>
+                                <span class="review-rating-item">Difficulty: <strong>${review.difficulty}/5</strong></span>
+                            </div>
+                            <div class="review-text">${review.text}</div>
+                            <div class="review-helpful">
+                                <button class="helpful-btn" onclick="this.textContent='👍 Helpful (' + (${review.helpful}+1) + ')'; this.disabled=true;">👍 Helpful (${review.helpful})</button>
+                                <button class="helpful-btn">👎 Not Helpful</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('reviewsList').innerHTML = reviewsHTML;
+
+            // Store current prof for review submission
+            document.getElementById('profModal').setAttribute('data-prof-id', profId);
+
+            // Show modal
+            document.getElementById('profModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('profModal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('profModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ===== STAR RATING INPUT =====
+        function setRating(type, value) {
+            const container = document.getElementById(type === 'overall' ? 'overallStars' : 'difficultyStars');
+            container.querySelectorAll('.star-input').forEach((star, i) => {
+                star.classList.toggle('active', i < value);
+            });
+            container.setAttribute('data-value', value);
+        }
+
+        // Star hover effects
+        document.querySelectorAll('.star-rating-input').forEach(container => {
+            container.querySelectorAll('.star-input').forEach((star, index) => {
+                star.addEventListener('mouseenter', () => {
+                    container.querySelectorAll('.star-input').forEach((s, i) => {
+                        s.style.color = i <= index ? '#ffc107' : '#ddd';
+                    });
+                });
+            });
+            container.addEventListener('mouseleave', () => {
+                const value = parseInt(container.getAttribute('data-value') || 0);
+                container.querySelectorAll('.star-input').forEach((s, i) => {
+                    s.style.color = i < value ? '#ffc107' : '#ddd';
+                });
+            });
+        });
+
+        // ===== SUBMIT REVIEW =====
+        function submitReview() {
+            const profId = document.getElementById('profModal').getAttribute('data-prof-id');
+            const overall = parseInt(document.getElementById('overallStars').getAttribute('data-value') || 0);
+            const difficulty = parseInt(document.getElementById('difficultyStars').getAttribute('data-value') || 0);
+            const takeAgain = document.getElementById('takeAgainSelect').value;
+            const course = document.getElementById('courseSelect').value;
+            const text = document.getElementById('reviewText').value.trim();
+
+            if (!overall || !difficulty || !course || !text) {
+                showToast('Please fill in all fields', '');
+                return;
+            }
+
+            // In production, this would be an API call
+            const prof = professorData[profId];
+            if (prof) {
+                // Add review to data
+                prof.reviews.unshift({
+                    course: course.split(' - ')[0],
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+                    quality: overall,
+                    difficulty: difficulty,
+                    text: text,
+                    helpful: 0,
+                    sentiment: overall >= 4 ? 'positive' : overall >= 3 ? 'neutral' : 'negative'
+                });
+
+                // Recalculate rating
+                prof.totalRatings++;
+                const newTotal = prof.totalRatings;
+                prof.overallRating = ((prof.overallRating * (newTotal - 1)) + overall) / newTotal;
+                prof.difficulty = ((prof.difficulty * (newTotal - 1)) + difficulty) / newTotal;
+                prof.breakdown[overall] = (prof.breakdown[overall] || 0) + 1;
+
+                if (takeAgain === 'yes') {
+                    prof.wouldTakeAgain = Math.round(((prof.wouldTakeAgain * (newTotal - 1)) + 100) / newTotal);
+                } else {
+                    prof.wouldTakeAgain = Math.round(((prof.wouldTakeAgain * (newTotal - 1)) + 0) / newTotal);
+                }
+            }
+
+            // Reset form
+            document.getElementById('reviewText').value = '';
+            document.getElementById('courseSelect').value = '';
+            document.getElementById('takeAgainSelect').value = '';
+            document.getElementById('overallStars').setAttribute('data-value', '0');
+            document.getElementById('difficultyStars').setAttribute('data-value', '0');
+            document.querySelectorAll('.star-rating-input .star-input').forEach(s => {
+                s.classList.remove('active');
+                s.style.color = '#ddd';
+            });
+
+            // Refresh modal and table
+            openProfModal(profId);
+            renderResults(courseData);
+
+            showToast('✓ Review submitted successfully!', 'success');
+        }
+
+        // ===== CALENDAR =====
+        function renderCalendar() {
+            const body = document.getElementById('calendarBody');
+            body.innerHTML = '';
+
+            const hours = ['7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'];
+
+            hours.forEach((hour, hIdx) => {
+                // Time label
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'time-slot';
+                timeDiv.textContent = hour;
+                body.appendChild(timeDiv);
+
+                // 5 day cells
+                for (let d = 0; d < 5; d++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'calendar-cell';
+                    body.appendChild(cell);
+                }
+            });
+
+            // Add events (registered courses)
+            // CS 483 006 - Friday 10:30 AM - 1:10 PM
+            addCalEvent('CS 483-006', '10:30 AM', '1:10 PM', 4, 'cs483'); // Friday = index 4
+
+            // CS 480 001 - Mon/Wed (example)
+            addCalEvent('CS 480-001', '2:00 PM', '3:15 PM', 0, 'cs480'); // Monday
+            addCalEvent('CS 480-001', '2:00 PM', '3:15 PM', 2, 'cs480'); // Wednesday
+        }
+
+        function addCalEvent(title, start, end, dayIndex, colorClass) {
+            const startMin = timeToMinutes(start);
+            const endMin = timeToMinutes(end);
+            const topOffset = ((startMin - 420) / 60) * 40; // 420 = 7am in minutes, 40px per hour
+            const height = ((endMin - startMin) / 60) * 40;
+
+            const cells = document.querySelectorAll('.calendar-cell');
+            // Each row has 5 cells, we need to find the right cell
+            const rowIndex = Math.floor((startMin - 420) / 60);
+            const cellIndex = rowIndex * 5 + dayIndex;
+
+            if (cells[cellIndex]) {
+                const event = document.createElement('div');
+                event.className = `cal-event ${colorClass}`;
+                event.style.top = '0px';
+                event.style.height = height + 'px';
+                event.innerHTML = `
+                    <div class="event-title">${title}</div>
+                    <div class="event-time">${start} - ${end}</div>
+                `;
+                cells[cellIndex].appendChild(event);
+                cells[cellIndex].style.position = 'relative';
+            }
+        }
+
+        function timeToMinutes(timeStr) {
+            const [time, period] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':').map(Number);
+            if (period === 'PM' && hours !== 12) hours += 12;
+            if (period === 'AM' && hours === 12) hours = 0;
+            return hours * 60 + minutes;
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'notification-toast show' + (type ? ` ${type}` : '');
+            setTimeout(() => {
+                toast.className = 'notification-toast';
+            }, 3000);
+        }
+
+        // ===== TAB SWITCHING =====
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        }
+
+        // ===== SEARCH =====
+        function performSearch() {
+            showToast('🔍 Searching...', '');
+            setTimeout(() => {
+                renderResults(courseData);
+                showToast('Found ' + courseData.length + ' results', 'success');
+            }, 500);
+        }
+
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            renderResults(courseData);
+        }
+
+        // ===== SUBMIT REGISTRATION =====
+        function submitRegistration() {
+            showToast('✓ Registration changes submitted successfully!', 'success');
+        }
+
+        // ===== KEYBOARD SHORTCUT =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ===== INITIALIZE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            renderResults(courseData);
+            renderCalendar();
+        });
+    </script>
+</body>
+</html>
